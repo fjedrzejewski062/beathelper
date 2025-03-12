@@ -18,11 +18,11 @@ public class BPMService {
     }
 
     public BPM randomBPM(User createdBy, Integer min, Integer max){
-        if(min != null || max != null || min >= max){
+        if(min == null || max == null || min >= max){
             throw new IllegalArgumentException("Podany zakres BPM jest niepoprawny");
         }
 
-        int randomBPMValue = ran.nextInt(min, max);
+        int randomBPMValue = generateRandomBPMValue(min, max);
 
         BPM bpm = new BPM();
         bpm.setBpmValue(randomBPMValue);
@@ -30,13 +30,20 @@ public class BPMService {
 
         return bpmRepository.save(bpm);
     }
+    public int generateRandomBPMValue(int min, int max) {
+        return ran.nextInt(min, max);
+    }
 
     public Optional<BPM> findById(Long id){
         return bpmRepository.findById(id);
     }
 
-    public void deleteBPM(BPM bpm){
-        bpmRepository.delete(bpm);
+    public BPM updateBPM(BPM bpm){
+        return bpmRepository.save(bpm);
+    }
+
+    public void deleteBPM(Long id){
+        bpmRepository.deleteById(id);
     }
 
     public Optional<BPM> findByBPM(Integer bpmValue){
