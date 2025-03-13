@@ -57,7 +57,7 @@ public class BPMController {
     @GetMapping("/mybpms/edit/{id}")
     public String showEditBPM(@PathVariable Long id, Model model,
                               @AuthenticationPrincipal org.springframework.security.core.userdetails.User currentUser){
-        BPM bpm = bpmService.findById(id).orElse(null);
+        BPM bpm = bpmService.findById(id);
 
         if(bpm == null || !bpm.getCreatedBy().getEmail().equals(currentUser.getUsername())){
             return "redirect:/mybpms";
@@ -74,7 +74,7 @@ public class BPMController {
                           Model model,
                           @RequestParam(value = "min", required = false) Integer min,
                           @RequestParam(value = "max", required = false) Integer max){
-        BPM existingBPM = bpmService.findById(id).orElse(null);
+        BPM existingBPM = bpmService.findById(id);
 
         if(existingBPM == null || !existingBPM.getCreatedBy().getEmail().equals(currentUser.getUsername())){
             return "redirect:/mybpms";
@@ -97,7 +97,7 @@ public class BPMController {
     @GetMapping("/mybpms/delete/{id}")
     public String deleteBPM(@PathVariable Long id,
                             @AuthenticationPrincipal org.springframework.security.core.userdetails.User currentUser){
-        BPM bpm = bpmService.findById(id).orElse(null);
+        BPM bpm = bpmService.findById(id);
         if(bpm != null && bpm.getCreatedBy().getEmail().equals(currentUser.getUsername())){
             bpmService.deleteBPM(id);
         }

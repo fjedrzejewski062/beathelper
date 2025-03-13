@@ -55,7 +55,7 @@ public class KeyController {
     @GetMapping("/mykeys/edit/{id}")
     public String showEditKey(@PathVariable Long id, Model model,
                               @AuthenticationPrincipal org.springframework.security.core.userdetails.User currentUser){
-        Key key = keyService.findById(id).orElse(null);
+        Key key = keyService.findById(id);
 
         if(key == null || !key.getCreatedBy().getEmail().equals(currentUser.getUsername())){
             return "redirect:/mykeys";
@@ -71,7 +71,7 @@ public class KeyController {
                           BindingResult result,
                           @AuthenticationPrincipal org.springframework.security.core.userdetails.User currentUser,
                           Model model){
-        Key existingKey = keyService.findById(id).orElse(null);
+        Key existingKey = keyService.findById(id);
 
         if(existingKey == null || !existingKey.getCreatedBy().getEmail().equals(currentUser.getUsername())){
             return "redirect:/mykeys";
@@ -85,14 +85,14 @@ public class KeyController {
         existingKey.setName(key.getName());
         existingKey.setRelatedKeys(key.getRelatedKeys());
 
-        keyService.editKey(existingKey);
+        keyService.updateKey(existingKey);
         return "redirect:/mykeys";
     }
 
     @GetMapping("/mykeys/delete/{id}")
     public String deleteKey(@PathVariable Long id,
                             @AuthenticationPrincipal org.springframework.security.core.userdetails.User currentUser){
-        Key key = keyService.findById(id).orElse(null);
+        Key key = keyService.findById(id);
         if(key != null && key.getCreatedBy().getEmail().equals(currentUser.getUsername())){
             keyService.deleteKey(key);
         }
