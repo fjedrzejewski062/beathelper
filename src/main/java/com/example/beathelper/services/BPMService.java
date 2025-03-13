@@ -5,6 +5,7 @@ import com.example.beathelper.entities.User;
 import com.example.beathelper.repositories.BPMRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -33,9 +34,12 @@ public class BPMService {
     public int generateRandomBPMValue(int min, int max) {
         return ran.nextInt(min, max);
     }
+    public List<BPM> findBPMsByUser(User user){
+        return bpmRepository.findByUser(user);
+    }
 
-    public Optional<BPM> findById(Long id){
-        return bpmRepository.findById(id);
+    public BPM findById(Long id){
+        return bpmRepository.findById(id).orElse(null);
     }
 
     public BPM updateBPM(BPM bpm){

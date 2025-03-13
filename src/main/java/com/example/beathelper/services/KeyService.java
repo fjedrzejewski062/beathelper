@@ -122,8 +122,11 @@ public class KeyService {
 
         return relatedKeys;
     }
-    public Optional<Key> findById(Long id){
-        return keyRepository.findById(id);
+    public List<Key> findKeysByUser(User user){
+        return keyRepository.findByUser(user);
+    }
+    public Key findById(Long id){
+        return keyRepository.findById(id).orElse(null);
     }
 //    public Key editKey(Long id, String type){
 //        if (type == null) {
@@ -162,7 +165,7 @@ public class KeyService {
 //
 //    }
 
-    public Key editKey(Key key){
+    public Key updateKey(Key key){
         return keyRepository.save(key);
     }
 
