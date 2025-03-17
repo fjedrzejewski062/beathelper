@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<div th:fragment="header">
+    <header class="main-header">
+        <h1>BeatHelper</h1>
+        <nav>
+            <ul>
+                <li sec:authorize="!isAuthenticated()">
+                    <a th:href="@{/register}">Register</a>
+                </li>
+                <li sec:authorize="!isAuthenticated()">
+                    <a th:href="@{/login}">Login</a>
+                </li>
+                <li sec:authorize="isAuthenticated()">
+                    <a th:href="@{/mybpms}">My BPMs</a>
+                </li>
+                <li sec:authorize="isAuthenticated()">
+                    <a th:href="@{/mykeys}">My Keys</a>
+                </li>
+                <li sec:authorize="isAuthenticated()">
+                    <a th:href="@{/logout}">Logout</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+</div>
+
+<div th:fragment="footer">
+    <footer class="main-footer">
+        <p>&copy; BeatHelper</p>
+    </footer>
+</div>
+</body>
+</html>
