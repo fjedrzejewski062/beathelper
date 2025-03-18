@@ -39,7 +39,7 @@ public class UserService {
     }
 
     public void softDelete(User user){
-        userRepository.delete(user);
+        //userRepository.delete(user);
         user.setDeleted(true);
         user.setUsername("DELETED-USER-" + user.getId());
         user.setEmail("DELETED-USER-" + user.getId() + "@beathelper.com");
