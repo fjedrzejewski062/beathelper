@@ -20,6 +20,9 @@
                     <a th:href="@{/mykeys}">My Keys</a>
                 </li>
                 <li sec:authorize="isAuthenticated()">
+                    <a th:href="@{/myprofile}">My Profile</a>
+                </li>
+                <li sec:authorize="isAuthenticated()">
                     <a th:href="@{/logout}">Logout</a>
                 </li>
             </ul>
