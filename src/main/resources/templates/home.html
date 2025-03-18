@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>BeatHelper</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<div th:replace="fragments :: header"></div>
+<div class="container">
+    <div class="content">
+        <h2>Welcome to BeatHelper!</h2>
+        <p>
+            <span sec:authorize="!isAuthenticated()">
+                <a th:href="@{/register}">Register</a> or <a th:href="@{/login}">Login</a> to random your BPM or Key!
+            </span>
+            <span sec:authorize="isAuthenticated()">
+                <a th:href="@{/mybpms/random}" class="btn">Random BPM</a>
+                <a th:href="@{/mykeys/random}" class="btn">Random Key</a>
+            </span>
+        </p>
+    </div>
+</div>
+<div th:replace="fragments :: footer"></div>
+</body>
+</html>
