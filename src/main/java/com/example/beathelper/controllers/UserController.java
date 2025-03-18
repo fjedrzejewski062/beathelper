@@ -51,7 +51,7 @@ public class UserController {
             result.rejectValue("email", "error.user", "Email is already registered");
         }
 
-        if(adminEmail.equalsIgnoreCase(user.getEmail())){
+        if(adminEmail != null && adminEmail.equalsIgnoreCase(user.getEmail())){
             user.setRole("ADMIN");
         }
 
