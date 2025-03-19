@@ -9,13 +9,15 @@
 <div class="container">
     <div class="content">
         <h2>My BPMs</h2>
-        <a th:href="@{/mybpms/create}" class="btn">Create New BPM</a>
+        <a th:href="@{/mybpms/random}" class="btn">Random New BPM</a>
         <br><br/>
         <table>
             <thead>
             <tr>
                 <th>ID</th>
                 <th>BPM value</th>
+                <th>Created at</th>
+                <th>Created by</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -23,6 +25,8 @@
             <tr th:each="bpm : ${bpms}">
                 <td th:text="${bpm.id}">1</td>
                 <td th:text="${bpm.bpmValue}">140</td>
+                <td th:text="${bpm.createdAt}">1900-01-01T00:00:00.000</td>
+                <td th:text="${bpm.createdBy}">User</td>
                 <td>
                     <a th:href="@{'/mybpms/edit/' + ${bpm.id}}" class="btn btn-edit">Edit</a>
                     <a th:href="@{'/mybpms/delete/ + '${bpm.id}}" class="btn btn-delete"
