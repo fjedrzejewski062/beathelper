@@ -44,6 +44,7 @@ public class BPMController {
                             @RequestParam(value = "min", required = false) Integer min,
                             @RequestParam(value = "max", required = false) Integer max){
         if(result.hasErrors()){
+            model.addAttribute("error", "Podany zakres BPM jest niepoprawny");
             return "randomBPM";
         }
 
