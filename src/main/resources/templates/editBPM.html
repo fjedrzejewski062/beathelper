@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>BeatHelper</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<div th:replace="fragments :: header"></div>
+<div class="container">
+    <div class="content">
+        <h2>Edit BPM</h2>
+        <form th:action="@{/mybpms/edit/{id}(id=${bpm.id})}" th:object="${bpm}" method="post">
+            <label for="min">Min BPM:</label>
+            <input type="number" id="min" name="min" required>
+
+            <label for="max">Max BPM:</label>
+            <input type="number" id="max" name="max" required>
+
+            <div class="form-error" th:if="${error}">
+                <p th:text="${error}"></p>
+            </div>
+            <button type="submit" class="btn">Save Changes</button>
+        </form>
+        <br/>
+        <a th:href="@{/mybpms}" class="btn">Back to my BPMs</a>
+    </div>
+</div>
+<div th:replace="fragments :: footer"></div>
+</body>
+</html>
