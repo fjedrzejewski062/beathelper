@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>BeatHelper</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<div th:replace="fragments :: header"></div>
+<div class="container">
+    <div class="content">
+        <h2>Random Key</h2>
+        <form th:action="@{/mykeys/edit/{id}(id=${key.id})}" th:object="${key}" method="post">
+            <form th:action="@{/mykeys/random}" method="post">
+                <label for="type">Select Key Type:</label>
+                <select id="type" name="type">
+                    <option value="both">Both</option>
+                    <option value="major">Major</option>
+                    <option value="minor">Minor</option>
+                </select>
+
+                <div class="form-error" th:if="${error}">
+                    <p th:text="${error}"></p>
+                </div>
+
+                <button type="submit" class="btn">Random</button>
+            </form>
+            <div class="form-error" th:if="${error}">
+                <p th:text="${error}"></p>
+            </div>
+            <button type="submit" class="btn">Save Changes</button>
+        </form>
+        <br/>
+        <a th:href="@{/mybpms}" class="btn">Back to my Keys</a>
+    </div>
+</div>
+<div th:replace="fragments :: footer"></div>
+</body>
+</html>
