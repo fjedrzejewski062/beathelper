@@ -128,42 +128,7 @@ public class KeyService {
     public Key findById(Long id){
         return keyRepository.findById(id).orElse(null);
     }
-//    public Key editKey(Long id, String type){
-//        if (type == null) {
-//            type = "both";
-//        }
-//
-//        List<KeyType> keyTypes;
-//
-//        switch(type.toLowerCase()) {
-//            case "major":
-//                keyTypes = Arrays.stream(KeyType.values())
-//                        .filter(k -> k.getName().contains("Major"))
-//                        .toList();
-//                break;
-//            case "minor":
-//                keyTypes = Arrays.stream(KeyType.values())
-//                        .filter(k -> k.getName().contains("Minor"))
-//                        .toList();
-//                break;
-//            case "both":
-//                keyTypes = Arrays.asList(KeyType.values());
-//                break;
-//            default:
-//                throw new IllegalArgumentException("Niepoprawny typ: " + type);
-//        }
-//
-//        KeyType randomKey = keyTypes.get(ran.nextInt(keyTypes.size()));
-//
-//        List<KeyType> relatedKeys = findRelatedKeys(randomKey);
-//
-//        Key key = keyRepository.findById(id)
-//                .orElseThrow(() -> new IllegalArgumentException("Key o podanym ID nie istnieje"));
-//        key.setName(randomKey);
-//        key.setRelatedKeys(relatedKeys);
-//        return keyRepository.save(key);
-//
-//    }
+
 
     public Key updateKey(Key key){
         return keyRepository.save(key);
