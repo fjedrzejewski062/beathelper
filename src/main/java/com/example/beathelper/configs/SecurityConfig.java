@@ -11,6 +11,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import java.net.http.HttpRequest;
 import java.security.Security;
+import java.util.List;
 
 @Configuration
 public class SecurityConfig {
@@ -24,7 +25,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/register", "login", "/css/**", "/img/**", "/static/**", "/banned").permitAll()
+                        .requestMatchers("/", "/register", "/login", "/css/**", "/img/**", "/static/**", "/banned").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -39,6 +40,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .httpBasic(Customizer.withDefaults());
 
+        System.out.println("Security configuration loaded");
+
         return http.build();
     }
 
@@ -46,4 +49,5 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder(){
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
+
 }
