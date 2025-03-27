@@ -5,19 +5,26 @@
     <title>BeatHelper</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
+<body>
 <div th:replace="fragments :: header"></div>
-<div class="container">
+<div class="container centered-container">
     <div class="content">
         <h2>Edit BPM</h2>
         <form th:action="@{/mybpms/edit/{id}(id=${bpm.id})}" th:object="${bpm}" method="post">
-            <label for="min">Min BPM:</label>
-            <input type="number" id="min" name="min" required>
+            <div class="input-group">
+                <div class="input-item">
+                    <label for="min">Min BPM:</label>
+                    <input type="number" id="min" name="min" class="small-input" required>
+                </div>
 
-            <label for="max">Max BPM:</label>
-            <input type="number" id="max" name="max" required>
+                <div class="input-item">
+                    <label for="max">Max BPM:</label>
+                    <input type="number" id="max" name="max" class="small-input" required>
+                </div>
+            </div>
 
             <div class="form-error" th:if="${error}">
-                <p th:text="${error}"></p>
+                <p th:text="${error}" class="error-message"></p>
             </div>
             <button type="submit" class="btn">Save Changes</button>
         </form>
