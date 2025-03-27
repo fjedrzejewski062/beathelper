@@ -1,9 +1,11 @@
 package com.example.beathelper.controllers;
 
 import com.example.beathelper.entities.User;
+import com.example.beathelper.services.CustomUserDetailsService;
 import com.example.beathelper.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,7 @@ public class UserController {
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model){
+        System.out.println("Register page requested");
         model.addAttribute("user", new User());
         return "register";
     }
@@ -59,7 +62,7 @@ public class UserController {
             return "register";
         }
         userService.register(user);
-        return "redirect:/login";
+        return "redirect:/";
     }
 
     @GetMapping("/login")
@@ -78,7 +81,7 @@ public class UserController {
     }
 
     @PostMapping("/deleteaccount")
-    public String deleteAccount(org.springframework.security.core.userdetails.User currentUser){
+    public String deleteAccount(@AuthenticationPrincipal org.springframework.security.core.userdetails.User currentUser){
         String email = currentUser.getUsername();
         User user = userService.findByEmail(email).orElse(null);
         if(user != null){
