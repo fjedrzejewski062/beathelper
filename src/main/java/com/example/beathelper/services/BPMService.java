@@ -3,8 +3,14 @@ package com.example.beathelper.services;
 import com.example.beathelper.entities.BPM;
 import com.example.beathelper.entities.User;
 import com.example.beathelper.repositories.BPMRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -20,7 +26,11 @@ public class BPMService {
 
     public BPM randomBPM(User createdBy, Integer min, Integer max){
         if(min == null || max == null || min >= max){
-            throw new IllegalArgumentException("Podany zakres BPM jest niepoprawny");
+            throw new IllegalArgumentException("The provided BPM range is invalid.");
+        }
+
+        if (min < 1 || max > 250) {
+            throw new IllegalArgumentException("BPM must be between 1 and 250.");
         }
 
         int randomBPMValue = generateRandomBPMValue(min, max);
@@ -34,8 +44,8 @@ public class BPMService {
     public int generateRandomBPMValue(int min, int max) {
         return ran.nextInt(min, max);
     }
-    public List<BPM> findBPMsByUser(User user){
-        return bpmRepository.findByUser(user);
+    public List<BPM> findBPMsByUser(User createdBy){
+        return bpmRepository.findByCreatedBy(createdBy);
     }
 
     public BPM findById(Long id){
@@ -50,7 +60,41 @@ public class BPMService {
         bpmRepository.deleteById(id);
     }
 
-    public Optional<BPM> findByBPM(Integer bpmValue){
-        return bpmRepository.findByBPM(bpmValue);
+    public Optional<BPM> findByBPMValue(Integer bpmValue){
+        return bpmRepository.findByBpmValue(bpmValue);
+    }
+
+
+    public Page<BPM> findBPMsByUser(User createdBy, int page) {
+        Pageable pageable = PageRequest.of(page, 10); // 10 rekordów na stronę
+        return bpmRepository.findByCreatedBy(createdBy, pageable);
+    }
+
+    public Page<BPM> findFilteredBPMs(User createdBy, Integer min, Integer max, Integer bpmValue, String startDate, String endDate, Pageable pageable) {
+        LocalDateTime start = null;
+        LocalDateTime end = null;
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        if (startDate != null && !startDate.isEmpty()) {
+            start = LocalDateTime.parse(startDate + "T00:00:00");
+        }
+        if (endDate != null && !endDate.isEmpty()) {
+            end = LocalDateTime.parse(endDate + "T23:59:59");
+        }
+
+        if (bpmValue != null) {
+            return bpmRepository.searchByBpm(createdBy, bpmValue, pageable);
+        } else if (min != null && max != null) {
+            return bpmRepository.findByCreatedByAndBpmValueBetween(createdBy, min, max, pageable);
+        } else if (min != null) {
+            return bpmRepository.findByCreatedByAndBpmValueGreaterThanEqual(createdBy, min, pageable);
+        }else if (max != null) {
+            return bpmRepository.findByCreatedByAndBpmValueLessThanEqual(createdBy, max, pageable);
+        }else if (start != null && end != null) {
+            return bpmRepository.findByCreatedByAndCreatedAtBetween(createdBy, start, end, pageable);
+        }
+
+        return bpmRepository.findByCreatedBy(createdBy, pageable);
     }
 }

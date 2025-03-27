@@ -4,9 +4,13 @@ import com.example.beathelper.entities.Key;
 import com.example.beathelper.entities.User;
 import com.example.beathelper.enums.KeyType;
 import com.example.beathelper.repositories.KeyRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -62,6 +66,9 @@ public class KeyService {
             type = "both";
         }
 
+        System.out.println("Losujemy klucz dla użytkownika: " + (createdBy != null ? createdBy.getEmail() : "Brak użytkownika"));
+        System.out.println("Typ losowania: " + type);
+
         List<KeyType> keyTypes;
 
         switch(type.toLowerCase()) {
@@ -82,19 +89,30 @@ public class KeyService {
                 throw new IllegalArgumentException("Niepoprawny typ: " + type);
         }
 
+        if (keyTypes.isEmpty()) {
+            System.out.println("Brak dostępnych kluczy do losowania!");
+            return null;
+        }
+
         KeyType randomKey = keyTypes.get(ran.nextInt(keyTypes.size()));
+        System.out.println("Wylosowany klucz: " + randomKey);
 
         List<KeyType> relatedKeys = findRelatedKeys(randomKey);
+        System.out.println("Powiązane klucze: " + relatedKeys);
 
         Key key = new Key();
         key.setName(randomKey);
         key.setRelatedKeys(relatedKeys);
         key.setCreatedBy(createdBy);
         key.setCreatedAt(LocalDateTime.now());
-        return keyRepository.save(key);
+
+        Key savedKey = keyRepository.save(key);
+        System.out.println("Zapisano klucz: " + savedKey.getId());
+
+        return savedKey;
     }
 
-    private List<KeyType> findRelatedKeys(KeyType key){
+    public List<KeyType> findRelatedKeys(KeyType key){
         List<KeyType> relatedKeys = new ArrayList<>();
         String camelotCode = camelotCircleMap.get(key);
 
@@ -122,8 +140,31 @@ public class KeyService {
 
         return relatedKeys;
     }
-    public List<Key> findKeysByUser(User user){
-        return keyRepository.findByUser(user);
+    public KeyType getRandomKeyType(String type) {
+        List<KeyType> keyTypes;
+
+        switch (type.toLowerCase()) {
+            case "major":
+                keyTypes = Arrays.stream(KeyType.values())
+                        .filter(k -> k.getName().contains("Major"))
+                        .toList();
+                break;
+            case "minor":
+                keyTypes = Arrays.stream(KeyType.values())
+                        .filter(k -> k.getName().contains("Minor"))
+                        .toList();
+                break;
+            case "both":
+                keyTypes = Arrays.asList(KeyType.values());
+                break;
+            default:
+                throw new IllegalArgumentException("Niepoprawny typ: " + type);
+        }
+
+        return keyTypes.get(new Random().nextInt(keyTypes.size()));
+    }
+    public List<Key> findKeysByUser(User createdBy){
+        return keyRepository.findByCreatedBy(createdBy);
     }
     public Key findById(Long id){
         return keyRepository.findById(id).orElse(null);
@@ -140,7 +181,36 @@ public class KeyService {
         keyRepository.delete(key);
     }
 
-    public Optional<Key> findByKey(KeyType key){
-        return keyRepository.findByKey(key);
+    public Optional<Key> findByKey(KeyType name){
+        return keyRepository.findByName(name);
+    }
+    public Page<Key> findKeysByUser(User createdBy, int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        return keyRepository.findByCreatedBy(createdBy, pageable);
+    }
+
+    public Page<Key> findFilteredKeys(User createdBy, KeyType keyName, String startDate, String endDate, Pageable pageable) {
+        LocalDateTime start = null;
+        LocalDateTime end = null;
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        if (startDate != null && !startDate.isEmpty()) {
+            start = LocalDateTime.parse(startDate + "T00:00:00");
+        }
+        if (endDate != null && !endDate.isEmpty()) {
+            end = LocalDateTime.parse(endDate + "T23:59:59");
+        }
+
+        // Przefiltrowanie na podstawie KeyType, jeśli keyName nie jest nullem
+        if (keyName != null) {
+            return keyRepository.searchByKey(createdBy, keyName, pageable);
+        } else if (start != null && end != null) {
+            return keyRepository.findByCreatedByAndCreatedAtBetween(createdBy, start, end, pageable);
+        }
+
+        return keyRepository.findByCreatedBy(createdBy, pageable);
     }
 }
+
+
