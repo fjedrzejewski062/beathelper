@@ -9,8 +9,8 @@
 <div th:replace="fragments :: header"></div>
 <div class="container centered-container">
     <div class="content">
-        <h2>Random BPM</h2>
-        <form th:action="@{/mybpms/random}" th:object="${bpm}" method="post">
+        <h2>Edit BPM</h2>
+        <form th:action="@{/mybpms/edit/{id}(id=${bpm.id})}" th:object="${bpm}" method="post">
             <div class="input-group">
                 <div class="input-item">
                     <label for="min">Min BPM:</label>
@@ -24,9 +24,9 @@
             </div>
 
             <div class="form-error" th:if="${error}">
-                <p th:text="${error}"></p>
+                <p th:text="${error}" class="error-message"></p>
             </div>
-            <button type="submit" class="btn">Random</button>
+            <button type="submit" class="btn">Save Changes</button>
         </form>
         <br/>
         <a th:href="@{/mybpms}" class="btn">Back to my BPMs</a>

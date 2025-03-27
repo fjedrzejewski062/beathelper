@@ -1,0 +1,398 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #D9D9D9;
+    color: #333;
+}
+
+header {
+    background-color: #646464;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.header-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+nav ul {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    list-style: none;
+    margin: 10px 0 0;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #D9D9D9;
+}
+
+.container {
+    padding: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.content {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+
+    /* Wycentrowanie */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    /* Maksymalna szerokość, by wyglądało dobrze na różnych ekranach */
+    max-width: 600px;
+    width: 90%;
+}
+
+.container-box {
+    width: 65%;  /* Delikatne powiększenie */
+    max-width: 1000px; /* Maksymalna szerokość */
+    padding: 25px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    background-color: #4A4A4A;
+    color: #fff;
+    text-align: center;
+    padding: 12px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+form label {
+    display: block;
+    margin-top: 12px;
+    font-weight: 600;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 6px;
+    background: #f8f8f8;
+}
+
+form button {
+    margin-top: 12px;
+    padding: 12px 18px;
+    background-color: #646464;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+form button:hover {
+    background-color: #4A4A4A;
+}
+
+.form-error {
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.btn {
+    padding: 8px 14px;
+    text-decoration: none;
+    border: none;
+    background-color: #8C8C8C;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    display: inline-block;
+    margin-right: 6px;
+    transition: background 0.3s;
+}
+
+.btn:hover {
+    background-color: #646464;
+}
+
+.btn-delete {
+    background-color: #A83232;
+}
+
+.btn-delete:hover {
+    background-color: #8C1E1E;
+}
+
+.btn-edit {
+    background-color: #3273A8;
+}
+
+.btn-edit:hover {
+    background-color: #265B86;
+}
+
+.btn-clear {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #D9D9D9; /* Kolor tła */
+    color: #333;               /* Kolor tekstu */
+    border: 1px solid #ccc;    /* Obramowanie */
+    text-decoration: none;      /* Usuwamy podkreślenie linku */
+    border-radius: 4px;         /* Zaokrąglenie krawędzi */
+    font-size: 0.8rem;
+    margin-top: 10px;
+}
+
+.btn-clear:hover {
+    background-color: #bbb;    /* Zmiana koloru tła po najechaniu */
+}
+
+a {
+    color: #646464;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.table-container {
+    max-height: 400px;
+    overflow-y: auto;
+    border-radius: 5px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Stylizacja tabeli */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+/* Stylizacja komórek */
+table, th, td {
+    border: 1px solid #ccc;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center; /* Wycentrowanie */
+    vertical-align: middle; /* Centrowanie w pionie */
+    border: 1px solid #ccc;
+}
+
+/* Nagłówki tabeli */
+th {
+    background-color: #646464;
+    color: white;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+
+th a {
+    color: white !important; /* Upewnia się, że linki w nagłówkach są białe */
+    text-decoration: none;
+}
+
+th a:hover {
+    text-decoration: underline; /* Opcjonalnie, by było widać, że to link */
+}
+
+/* Kolumna akcji */
+td.actions {
+    text-align: center;
+    white-space: nowrap;
+}
+
+.form-error {
+    color: #A83232;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #646464;
+    color: #fff;
+    padding: 20px;
+}
+
+.main-header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.main-header nav ul {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.main-header nav ul li {
+    margin-left: 15px;
+}
+
+.main-header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.main-footer {
+    background-color: #4A4A4A;
+    color: #fff;
+    text-align: center;
+    padding: 12px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.main-header h1 a {
+    color: white;
+    text-decoration: none;
+}
+
+.main-header h1 a:hover {
+    text-decoration: underline;
+}
+
+.profile-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: 10px auto;
+    border: 3px solid #646464;
+}
+
+.pagination {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.pagination a {
+    display: inline-block;
+    padding: 8px 12px;
+    margin: 0 5px;
+    text-decoration: none;
+    background-color: #646464;
+    color: white;
+    border-radius: 3px;
+    transition: background 0.3s;
+}
+
+.pagination a:hover {
+    background-color: #4a4a4a;
+}
+
+.filter-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+}
+
+.small-input {
+    width: 60px;   /* Szerokość */
+    height: 25px;  /* Mniejsza wysokość */
+    padding: 2px;  /* Mniejszy padding */
+    font-size: 14px; /* Mniejsza czcionka */
+    text-align: center; /* Środek */
+}
+
+.filter-row {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap; /* Żeby na mniejszych ekranach nie było rozwalone */
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.date-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.centered-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100vh; /* Wysokość na całą stronę */
+}
+
+.input-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: center; /* Wyśrodkowanie w poziomie */
+    gap: 15px; /* Odstęp między polami */
+    margin-bottom: 10px; /* Doda odstęp między polami */
+    align-items: center; /* Wyśrodkowanie etykiety i inputa */
+}
+
+.input-item {
+    display: flex;
+    flex-direction: column; /* Układ pionowy (etykieta nad inputem) */
+    align-items: center; /* Wyśrodkowanie */
+}
