@@ -28,6 +28,8 @@ public class User {
 
     @NotEmpty(message = "Hasło jest wymagane")
     private String password;
+//    @Transient
+//    private String confirmPassword;
 
     @Enumerated(EnumType.STRING)
     private UserType userType;
@@ -81,6 +83,14 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+//    public String getConfirmPassword() {
+//        return confirmPassword;
+//    }
+//
+//    public void setConfirmPassword(String confirmPassword) {
+//        this.confirmPassword = confirmPassword;
+//    }
 
     public UserType getUserType() {
         return userType;
@@ -154,3 +164,4 @@ public class User {
         this.keys = keys;
     }
 }
+

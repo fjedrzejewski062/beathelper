@@ -15,30 +15,11 @@ public class BPM {
     @Column(nullable = true)
     private Integer bpmValue;
 
-//    private Integer minValue;
-//    private Integer maxValue;
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "created_by")
     private User createdBy;
-
-//    @AssertTrue(message = "minValue musi być mniejsze niż maxValue")
-//    public boolean isBPMValid() {
-//        if (bpmValue == null || minValue == null || maxValue == null) {
-//            return false;
-//        }
-//
-//        if (minValue >= maxValue) {
-//            return false;
-//        }
-//
-//        if (bpmValue < minValue || bpmValue > maxValue) {
-//            return false;
-//        }
-//
-//        return true;
-//    }
 
     public Long getId() {
         return id;
@@ -55,22 +36,6 @@ public class BPM {
     public void setBpmValue(Integer bpmValue) {
         this.bpmValue = bpmValue;
     }
-
-//    public Integer getMinValue() {
-//        return minValue;
-//    }
-//
-//    public void setMinValue(Integer minValue) {
-//        this.minValue = minValue;
-//    }
-//
-//    public Integer getMaxValue() {
-//        return maxValue;
-//    }
-//
-//    public void setMaxValue(Integer maxValue) {
-//        this.maxValue = maxValue;
-//    }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
