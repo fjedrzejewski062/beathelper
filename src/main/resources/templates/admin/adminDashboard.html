@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard - BeatHelper</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<div th:replace="admin/adminFragments :: header"></div>
+<div class="container">
+    <div class="content">
+        <div class="header-container">
+            <h2>Admin Dashboard</h2>
+        </div>
+        <form method="get" th:action="@{/admin/dashboard}" class="filter-form">
+            <div class="filter-row">
+                <!-- Wyszukiwanie po nazwie użytkownika -->
+                <div class="filter-group">
+                    <label>Search User:</label>
+                    <input type="text" name="name" th:value="${param.name}" class="small-input">
+                </div>
+                <br>
+
+                <!-- Wyszukiwanie po e-mailu -->
+                <div class="filter-group">
+                    <label>Search Email:</label>
+                    <input type="text" name="email" th:value="${param.email}" class="small-input">
+                </div>
+
+                <!-- Wyszukiwanie po User Type -->
+                <div class="filter-group">
+                    <label>Search User Type:</label>
+                    <select name="userType" class="small-input">
+                        <option value="">All</option>
+                        <option th:each="type : ${T(com.example.beathelper.enums.UserType).values()}"
+                                th:value="${type.name()}"
+                                th:text="${type.name()}"
+                                th:selected="${param.userType == type.name()}">
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Wyszukiwanie po roli użytkownika -->
+                <div class="filter-group">
+                    <label>Search Role:</label>
+                    <select name="role" class="small-input">
+                        <option value="">All</option>
+                        <option value="USER" th:selected="${param.role == 'USER'}">USER</option>
+                        <option value="ADMIN" th:selected="${param.role == 'ADMIN'}">ADMIN</option>
+                    </select>
+                </div>
+
+                <!-- Checkbox dla zbanowanych użytkowników -->
+                <div class="filter-group">
+                    <label>
+                        <input type="checkbox" name="banned" th:checked="${param.banned != null}" value="true">
+                        Banned Users
+                    </label>
+                </div>
+
+                <!-- Checkbox dla usuniętych użytkowników -->
+                <div class="filter-group">
+                    <label>
+                        <input type="checkbox" name="deleted" th:checked="${param.deleted != null}" value="true">
+                        Deleted Users
+                    </label>
+                </div>
+
+                <!-- Wyszukiwanie po dacie rejestracji -->
+                <div class="filter-group">
+                    <label>From Registration Date:</label>
+                    <input type="date" name="startDateRegistration" th:value="${param.startDateRegistration}" class="small-input">
+                </div>
+
+                <div class="filter-group">
+                    <label>To Registration Date:</label>
+                    <input type="date" name="endDateRegistration" th:value="${param.endDateRegistration}" class="small-input">
+                </div>
+
+                <!-- Wyszukiwanie po dacie ostatniego logowania -->
+                <div class="filter-group">
+                    <label>Last Login From:</label>
+                    <input type="date" name="startDateLastLogin" th:value="${param.startDateLastLogin}" class="small-input">
+                </div>
+
+                <div class="filter-group">
+                    <label>Last Login To:</label>
+                    <input type="date" name="endDateLastLogin" th:value="${param.endDateLastLogin}" class="small-input">
+                </div>
+            </div>
+
+            <!-- Obsługa błędów -->
+            <div class="form-error" th:if="${error}">
+                <p th:text="${error}"></p>
+            </div>
+
+            <!-- Przyciski filtracji -->
+            <div class="filter-group">
+                <button type="submit" class="btn">Filter</button>
+                <a th:href="@{/admin/dashboard}" class="btn btn-clear spaced-btn">Clear Filters</a>
+            </div>
+        </form>
+        <br>
+        <div class="table-container">
+
+        <table>
+            <thead>
+            <tr>
+                <th><a th:href="@{/admin/dashboard(sortField='id', sortDirection=${reverseSortDirection})}" th:text="'ID'">ID</a></th>
+                <th><a th:href="@{/admin/dashboard(sortField='username', sortDirection=${reverseSortDirection})}" th:text="'Username'">Username</a></th>
+                <th><a th:href="@{/admin/dashboard(sortField='email', sortDirection=${reverseSortDirection})}" th:text="'Email'">Email</a></th>
+                <th>User Type</th>
+                <th>Role</th>
+                <th>Banned</th>
+                <th>Deleted</th>
+                <th><a th:href="@{/admin/dashboard(sortField='registrationDate', sortDirection=${reverseSortDirection})}" th:text="'Registration Date'">Registration date</a></th>
+                <th><a th:href="@{/admin/dashboard(sortField='lastLogin', sortDirection=${reverseSortDirection})}" th:text="'Last Login'">Last login</a></th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}">1</td>
+                <td th:text="${user.username}">username</td>
+                <td th:text="${user.email}">email@example.com</td>
+                <td th:text="${user.userType.name}">BEATMAKER</td>
+                <td th:text="${user.role}">User</td>
+                <td th:text="${user.banned}">false</td>
+                <td th:text="${user.deleted}">false</td>
+                <td th:text="${user.registrationDate}">date</td>
+                <td th:text="${user.lastLogin}">date</td>
+                <td class="actions">
+                    <a th:href="@{'/admin/users/viewbpms/' + ${user.id}}" class="btn">View BPMs</a>
+                    <a th:href="@{'/admin/users/viewkeys/' + ${user.id}}" class="btn">View Keys</a>
+                    <a th:href="@{'/admin/users/advanced/' + ${user.id}}" class="btn">Advanced</a>
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+        </div>
+
+        <!-- Paginacja -->
+        <div class="pagination">
+            <span th:if="${currentPage > 0}">
+                <a th:href="@{/admin/dashboard(page=${currentPage - 1}, sortField=${sortField}, sortDirection=${sortDirection})}">&laquo; Previous</a>
+            </span>
+            <span>Page <span th:text="${currentPage + 1}">1</span> of <span th:text="${totalPages}">1</span></span>
+            <span th:if="${currentPage < totalPages - 1}">
+                <a th:href="@{/admin/dashboard(page=${currentPage + 1}, sortField=${sortField}, sortDirection=${sortDirection})}">Next &raquo;</a>
+            </span>
+        </div>
+    </div>
+</div>
+<div th:replace="admin/adminFragments :: footer"></div>
+</body>
+</html>

@@ -67,19 +67,20 @@ nav ul li a:hover {
     left: 50%;
     transform: translate(-50%, -50%);
 
-    /* Maksymalna szerokość, by wyglądało dobrze na różnych ekranach */
-    max-width: 600px;
-    width: 90%;
+    max-height: 500px;
+    max-width: 1400px;
+
+    overflow: auto; /* Włączenie scrolla, gdy zawartość jest większa niż dostępna przestrzeń */
 }
 
-.container-box {
-    width: 65%;  /* Delikatne powiększenie */
-    max-width: 1000px; /* Maksymalna szerokość */
-    padding: 25px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+.login{
+    padding-right: 40px; /* Zwiększ margines po prawej stronie */
 }
+
+.register{
+    padding-right: 40px; /* Zwiększ margines po prawej stronie */
+}
+
 
 footer {
     background-color: #4A4A4A;
@@ -197,7 +198,9 @@ ul {
 }
 
 .table-container {
-    max-height: 400px;
+    padding: 8px;
+    max-height: 1200px;
+    max-width: 1600px;
     overflow-y: auto;
     border-radius: 5px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -205,7 +208,8 @@ ul {
 
 /* Stylizacja tabeli */
 table {
-    width: 100%;
+    max-width: 1400px;
+    max-height: 600px;
     border-collapse: collapse;
     margin-top: 20px;
     background-color: #fff;
@@ -395,4 +399,12 @@ td.actions {
     display: flex;
     flex-direction: column; /* Układ pionowy (etykieta nad inputem) */
     align-items: center; /* Wyśrodkowanie */
+}
+
+.profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
 }

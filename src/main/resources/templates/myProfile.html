@@ -10,9 +10,10 @@
     <div class="content">
         <h2>My Profile</h2>
         <div>
-            <img th:src="@{${user.profileImage}}" alt="Profile Image" style="width: 150px; height: 150px; border-radius: 50%;" />
+            <img th:src="@{${user.profileImage}}" alt="Profile Image" class="profile-img" />
             <p><strong>Username:</strong> <span th:text="${user.username}">Username</span></p>
             <p><strong>Email:</strong> <span th:text="${user.email}">email@example.com</span></p>
+            <p><strong>User Type:</strong> <span th:text="${user.userType.getName()}">BEATMAKER</span></p>
             <p><strong>Registration date:</strong> <span th:text="${user.registrationDate}">data</span></p>
             <p><strong>Last login:</strong> <span th:text="${user.lastLogin}">data</span></p></div>
         <br/>

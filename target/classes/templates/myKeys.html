@@ -8,7 +8,7 @@
 <body>
 <div th:replace="fragments :: header"></div>
 <div class="container">
-    <div class="content container-box">
+    <div class="content">
         <div class="header-container">
             <h2>My Keys</h2>
             <a th:href="@{/mykeys/random}" class="btn">Random New Key</a>
@@ -70,7 +70,7 @@
                     <td th:text="${#strings.listJoin(key.relatedKeys.![name], ', ')}">Key 1, Key 2, Key 3</td>
                     <td th:text="${#temporals.format(key.createdAt, 'dd-MM-yyyy HH:mm')}">1900-01-01T00:00:00.000</td>
                     <td th:text="${key.createdBy.username}">User</td>
-                    <td>
+                    <td class="actions">
                         <a th:href="@{'/mykeys/edit/' + ${key.id}}" class="btn btn-edit">Edit</a>
                         <a th:href="@{'/mykeys/delete/' + ${key.id}}" class="btn btn-delete"
                            onclick="return confirm('Are you sure you want to delete this key?');">Delete</a>

@@ -7,6 +7,7 @@ import com.example.beathelper.repositories.KeyRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -190,26 +191,21 @@ public class KeyService {
     }
 
     public Page<Key> findFilteredKeys(User createdBy, KeyType keyName, String startDate, String endDate, Pageable pageable) {
-        LocalDateTime start = null;
-        LocalDateTime end = null;
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        if (startDate != null && !startDate.isEmpty()) {
-            start = LocalDateTime.parse(startDate + "T00:00:00");
-        }
-        if (endDate != null && !endDate.isEmpty()) {
-            end = LocalDateTime.parse(endDate + "T23:59:59");
-        }
-
-        // Przefiltrowanie na podstawie KeyType, jeśli keyName nie jest nullem
+        Specification<Key> spec = Specification.where(null);
+        // Filtracja po nazwie tonu (KeyType)
         if (keyName != null) {
-            return keyRepository.searchByKey(createdBy, keyName, pageable);
-        } else if (start != null && end != null) {
-            return keyRepository.findByCreatedByAndCreatedAtBetween(createdBy, start, end, pageable);
+            spec = spec.and((root, query, builder) -> builder.equal(root.get("name"), keyName));
         }
 
-        return keyRepository.findByCreatedBy(createdBy, pageable);
+        // Filtracja po dacie utworzenia
+        if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+            LocalDateTime start = LocalDateTime.parse(startDate + "T00:00:00");
+            LocalDateTime end = LocalDateTime.parse(endDate + "T23:59:59");
+            spec = spec.and((root, query, builder) -> builder.between(root.get("createdAt"), start, end));
+        }
+
+        // Wykonanie zapytania z dynamiczną specyfikacją
+        return keyRepository.findAll(spec, pageable);
     }
 }
 

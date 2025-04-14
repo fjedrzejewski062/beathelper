@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -71,30 +72,30 @@ public class BPMService {
     }
 
     public Page<BPM> findFilteredBPMs(User createdBy, Integer min, Integer max, Integer bpmValue, String startDate, String endDate, Pageable pageable) {
-        LocalDateTime start = null;
-        LocalDateTime end = null;
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        if (startDate != null && !startDate.isEmpty()) {
-            start = LocalDateTime.parse(startDate + "T00:00:00");
-        }
-        if (endDate != null && !endDate.isEmpty()) {
-            end = LocalDateTime.parse(endDate + "T23:59:59");
-        }
-
+        // Tworzymy specyfikację
+        Specification<BPM> spec = Specification.where(null);
+        // Filtracja po wartości BPM (jeśli podano)
         if (bpmValue != null) {
-            return bpmRepository.searchByBpm(createdBy, bpmValue, pageable);
-        } else if (min != null && max != null) {
-            return bpmRepository.findByCreatedByAndBpmValueBetween(createdBy, min, max, pageable);
-        } else if (min != null) {
-            return bpmRepository.findByCreatedByAndBpmValueGreaterThanEqual(createdBy, min, pageable);
-        }else if (max != null) {
-            return bpmRepository.findByCreatedByAndBpmValueLessThanEqual(createdBy, max, pageable);
-        }else if (start != null && end != null) {
-            return bpmRepository.findByCreatedByAndCreatedAtBetween(createdBy, start, end, pageable);
+            spec = spec.and((root, query, builder) -> builder.equal(root.get("bpmValue"), bpmValue));
         }
 
-        return bpmRepository.findByCreatedBy(createdBy, pageable);
+        // Filtracja po zakresie BPM (min i max)
+        if (min != null && max != null) {
+            spec = spec.and((root, query, builder) -> builder.between(root.get("bpmValue"), min, max));
+        } else if (min != null) {
+            spec = spec.and((root, query, builder) -> builder.greaterThanOrEqualTo(root.get("bpmValue"), min));
+        } else if (max != null) {
+            spec = spec.and((root, query, builder) -> builder.lessThanOrEqualTo(root.get("bpmValue"), max));
+        }
+
+        // Filtracja po dacie utworzenia (jeśli podano)
+        if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+            LocalDateTime start = LocalDateTime.parse(startDate + "T00:00:00");
+            LocalDateTime end = LocalDateTime.parse(endDate + "T23:59:59");
+            spec = spec.and((root, query, builder) -> builder.between(root.get("createdAt"), start, end));
+        }
+
+        // Wykonanie zapytania z dynamiczną specyfikacją
+        return bpmRepository.findAll(spec, pageable);
     }
 }
