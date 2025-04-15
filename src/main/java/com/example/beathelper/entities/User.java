@@ -84,14 +84,6 @@ public class User {
         this.password = password;
     }
 
-//    public String getConfirmPassword() {
-//        return confirmPassword;
-//    }
-//
-//    public void setConfirmPassword(String confirmPassword) {
-//        this.confirmPassword = confirmPassword;
-//    }
-
     public UserType getUserType() {
         return userType;
     }

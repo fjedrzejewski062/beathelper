@@ -1,0 +1,45 @@
+package com.example.beathelper.services;
+
+import com.stripe.exception.StripeException;
+import com.stripe.model.checkout.Session;
+import com.stripe.param.checkout.SessionCreateParams;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+@Service
+public class StripeService {
+
+    public String createCheckoutSession(BigDecimal amount, String successUrl, String cancelUrl) throws StripeException {
+        // Tworzymy przedmiot darowizny
+        List<SessionCreateParams.LineItem> lineItems = List.of(
+                SessionCreateParams.LineItem.builder()
+                        .setQuantity(1L)
+                        .setPriceData(
+                                SessionCreateParams.LineItem.PriceData.builder()
+                                        .setCurrency("pln") // Waluta - PLN
+                                        .setUnitAmount(amount.multiply(BigDecimal.valueOf(100)).longValue()) // w groszach!
+                                        .setProductData(
+                                                SessionCreateParams.LineItem.PriceData.ProductData.builder()
+                                                        .setName("Darowizna") // Nazwa przedmiotu
+                                                        .build()
+                                        )
+                                        .build()
+                        )
+                        .build()
+        );
+
+        // Parametry sesji Stripe
+        SessionCreateParams params = SessionCreateParams.builder()
+                .setMode(SessionCreateParams.Mode.PAYMENT)
+                .setSuccessUrl(successUrl + "?session_id={CHECKOUT_SESSION_ID}")
+                .setCancelUrl(cancelUrl)
+                .addAllLineItem(lineItems)
+                .build();
+
+        // Tworzymy sesję
+        Session session = Session.create(params);
+        return session.getUrl();  // Zwracamy URL do sesji płatności
+    }
+}
