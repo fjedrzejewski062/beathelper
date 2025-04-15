@@ -4,7 +4,6 @@ import com.example.beathelper.entities.BPM;
 import com.example.beathelper.entities.User;
 import com.example.beathelper.services.BPMService;
 import com.example.beathelper.services.UserService;
-import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,14 +11,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Random;
 
 @Controller
 public class BPMController {
@@ -48,22 +43,21 @@ public class BPMController {
         String email = currentUser.getUsername();
         User user = userService.findByEmail(email).orElse(null);
 
-        // Walidacja filtrów BPM
         if (min != null && (min < 1 || min > 250)) {
             redirectAttributes.addFlashAttribute("error", "Min BPM must be between 1 and 250.");
-            return "redirect:/mybpms"; // Używamy addFlashAttribute do przekazania komunikatu
+            return "redirect:/mybpms";
         }
         if (max != null && (max < 1 || max > 250)) {
             redirectAttributes.addFlashAttribute("error", "Max BPM must be between 1 and 250.");
-            return "redirect:/mybpms"; // Używamy addFlashAttribute do przekazania komunikatu
+            return "redirect:/mybpms";
         }
         if (min != null && max != null && min >= max) {
             redirectAttributes.addFlashAttribute("error", "Min BPM must be less than Max BPM.");
-            return "redirect:/mybpms"; // Używamy addFlashAttribute do przekazania komunikatu
+            return "redirect:/mybpms";
         }
         if (bpmValue != null && (bpmValue < 1 || bpmValue > 250)) {
             redirectAttributes.addFlashAttribute("error", "BPM value must be between 1 and 250.");
-            return "redirect:/mybpms"; // Używamy addFlashAttribute do przekazania komunikatu
+            return "redirect:/mybpms";
         }
 
         if (startDate != null && endDate != null && !startDate.isEmpty() && !endDate.isEmpty()) {
@@ -71,7 +65,7 @@ public class BPMController {
             LocalDateTime end = LocalDateTime.parse(endDate + "T23:59:59");
             if (end.isBefore(start)) {
                 redirectAttributes.addFlashAttribute("error", "End date cannot be earlier than start date.");
-                return "redirect:/mybpms"; // Używamy addFlashAttribute do przekazania komunikatu
+                return "redirect:/mybpms";
             }
         }
 
@@ -79,11 +73,6 @@ public class BPMController {
         Pageable pageable = PageRequest.of(page, 10, sort);
 
         Page<BPM> bpmPage = bpmService.findFilteredBPMs(user, min, max, bpmValue, startDate, endDate, pageable);
-
-        // Jeśli brak wyników, dodaj komunikat do modelu
-//        if (bpmPage.getTotalElements() == 0) {
-//            model.addAttribute("error", "No BPMs found matching the given criteria.");
-//        }
 
         model.addAttribute("user", user);
         model.addAttribute("bpms", bpmPage.getContent());
@@ -115,11 +104,11 @@ public class BPMController {
 
         try {
             bpmService.randomBPM(user, min, max);
-            return "redirect:/mybpms"; // Sukces – przekierowanie do listy BPM
+            return "redirect:/mybpms";
         } catch (IllegalArgumentException e) {
-            model.addAttribute("error", "Min BPM must be less than Max BPM."); // Przekazujemy komunikat błędu
-            model.addAttribute("bpm", new BPM()); // Aby formularz nie był pusty
-            return "randomBPM"; // Wracamy do formularza z błędem
+            model.addAttribute("error", "Min BPM must be less than Max BPM.");
+            model.addAttribute("bpm", new BPM());
+            return "randomBPM";
         }
     }
 
@@ -153,9 +142,9 @@ public class BPMController {
             bpmService.updateBPM(existingBPM);
             return "redirect:/mybpms";
         } catch (IllegalArgumentException e) {
-            model.addAttribute("error", "Min BPM must be less than Max BPM."); // Przekazujemy komunikat błędu
-            model.addAttribute("bpm", existingBPM); // Aby formularz nie był pusty
-            return "editBPM"; // Wracamy do formularza z błędem
+            model.addAttribute("error", "Min BPM must be less than Max BPM.");
+            model.addAttribute("bpm", existingBPM);
+            return "editBPM";
         }
     }
 

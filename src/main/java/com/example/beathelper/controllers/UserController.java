@@ -1,11 +1,9 @@
 package com.example.beathelper.controllers;
 
 import com.example.beathelper.entities.User;
-import com.example.beathelper.services.CustomUserDetailsService;
 import com.example.beathelper.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

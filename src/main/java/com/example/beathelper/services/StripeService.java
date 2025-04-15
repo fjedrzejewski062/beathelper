@@ -12,7 +12,6 @@ import java.util.List;
 public class StripeService {
 
     public String createCheckoutSession(BigDecimal amount, String successUrl, String cancelUrl) throws StripeException {
-        // Tworzymy przedmiot darowizny
         List<SessionCreateParams.LineItem> lineItems = List.of(
                 SessionCreateParams.LineItem.builder()
                         .setQuantity(1L)
@@ -30,7 +29,6 @@ public class StripeService {
                         .build()
         );
 
-        // Parametry sesji Stripe
         SessionCreateParams params = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
                 .setSuccessUrl(successUrl + "?session_id={CHECKOUT_SESSION_ID}")
@@ -38,8 +36,7 @@ public class StripeService {
                 .addAllLineItem(lineItems)
                 .build();
 
-        // Tworzymy sesję
         Session session = Session.create(params);
-        return session.getUrl();  // Zwracamy URL do sesji płatności
+        return session.getUrl();
     }
 }

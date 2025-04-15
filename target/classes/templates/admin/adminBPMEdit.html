@@ -5,33 +5,33 @@
     <title>Admin Panel - Edit BPM</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
-    <body>
-        <div th:replace="admin/adminFragments :: header"></div>
-        <div class="container centered-container">
-            <div class="content">
-                <h2>Admin Panel - Edit BPM</h2>
-                <form th:action="@{'/admin/users/' + ${userId} + '/bpms/edit/' + ${bpm.id}}" th:object="${bpm}" method="post">
-                    <div class="input-group">
-                        <div class="input-item">
-                            <label for="min">Min BPM:</label>
-                            <input type="number" id="min" name="min" class="small-input" required>
-                        </div>
-
-                        <div class="input-item">
-                            <label for="max">Max BPM:</label>
-                            <input type="number" id="max" name="max" class="small-input" required>
-                        </div>
+<body>
+<div th:replace="admin/adminFragments :: header"></div>
+    <div class="container centered-container">
+        <div class="content">
+            <h2>Admin Panel - Edit BPM</h2>
+            <form th:action="@{'/admin/users/' + ${userId} + '/bpms/edit/' + ${bpm.id}}" th:object="${bpm}" method="post">
+                <div class="input-group">
+                    <div class="input-item">
+                        <label for="min">Min BPM:</label>
+                        <input type="number" id="min" name="min" class="small-input" required>
                     </div>
 
-                    <div class="form-error" th:if="${error}">
-                        <p th:text="${error}" class="error-message"></p>
+                    <div class="input-item">
+                        <label for="max">Max BPM:</label>
+                        <input type="number" id="max" name="max" class="small-input" required>
                     </div>
-                    <button type="submit" class="btn">Save Changes</button>
-                </form>
-                <br/>
-                <a th:href="@{'/admin/users/view/' + ${userId}}" class="btn">Back to User Details</a>
-            </div>
+                </div>
+
+                <div class="form-error" th:if="${error}">
+                    <p th:text="${error}" class="error-message"></p>
+                </div>
+                <button type="submit" class="btn">Save Changes</button>
+            </form>
+            <br/>
+            <a th:href="@{'/admin/users/view/' + ${userId}}" class="btn">Back to User Details</a>
         </div>
-        <div th:replace="admin/adminFragments :: footer"></div>
-    </body>
+    </div>
+<div th:replace="admin/adminFragments :: footer"></div>
+</body>
 </html>

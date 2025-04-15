@@ -15,10 +15,9 @@ public class DonateController {
     @GetMapping("/donate/success")
     public String donationSuccess(@RequestParam("session_id") String sessionId, Model model) {
         model.addAttribute("sessionId", sessionId);
-        return "donate_success"; // Nazwa widoku donate_success.html w templates/
+        return "donate_success";
     }
 
-    // możesz też dodać failure:
     @GetMapping("/donate/cancel")
     public String donationCancelled() {
         return "donate_cancel";

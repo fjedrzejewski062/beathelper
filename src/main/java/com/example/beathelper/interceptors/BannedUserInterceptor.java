@@ -1,6 +1,5 @@
 package com.example.beathelper.interceptors;
 
-import com.example.beathelper.configs.SecurityConfig;
 import com.example.beathelper.entities.User;
 import com.example.beathelper.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;

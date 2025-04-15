@@ -2,7 +2,6 @@ package com.example.beathelper.configs;
 
 import com.stripe.Stripe;
 import jakarta.annotation.PostConstruct;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

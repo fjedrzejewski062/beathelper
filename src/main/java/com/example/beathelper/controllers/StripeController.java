@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.math.BigDecimal;
 
 @RestController
@@ -30,7 +29,7 @@ public class StripeController {
 
             String checkoutUrl = stripeService.createCheckoutSession(
                     amount,
-                    "http://localhost:8080/donate/success",  // Zmień na prod jeśli trzeba
+                    "http://localhost:8080/donate/success",
                     "http://localhost:8080/donate/cancel"
             );
             return ResponseEntity.ok(checkoutUrl);

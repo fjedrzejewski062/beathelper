@@ -5,18 +5,19 @@
     <title>BeatHelper</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
+<body>
 <div th:replace="fragments :: header"></div>
-<div class="container centered-container">
+<div class="container">
     <div class="content">
         <h2>Welcome to BeatHelper!</h2>
         <p>
-            <span sec:authorize="!isAuthenticated()">
-                <a th:href="@{/register}">Register</a> or <a th:href="@{/login}">Login</a> to random your BPM or Key!
-            </span>
+                <span sec:authorize="!isAuthenticated()">
+                    <a th:href="@{/register}">Register</a> or <a th:href="@{/login}">Login</a> to random your BPM or Key!
+                </span>
             <span sec:authorize="isAuthenticated()">
-                <a th:href="@{/mybpms/random}" class="btn">Random BPM</a>
-                <a th:href="@{/mykeys/random}" class="btn">Random Key</a>
-            </span>
+                    <a th:href="@{/mybpms/random}" class="btn">Random BPM</a>
+                    <a th:href="@{/mykeys/random}" class="btn">Random Key</a>
+                </span>
         </p>
     </div>
 </div>

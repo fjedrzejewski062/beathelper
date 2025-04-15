@@ -1,7 +1,6 @@
 package com.example.beathelper.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.AssertTrue;
 
 import java.time.LocalDateTime;
 

@@ -70,15 +70,15 @@ nav ul li a:hover {
     max-height: 500px;
     max-width: 1400px;
 
-    overflow: auto; /* Włączenie scrolla, gdy zawartość jest większa niż dostępna przestrzeń */
+    overflow: auto;
 }
 
 .login{
-    padding-right: 40px; /* Zwiększ margines po prawej stronie */
+    padding-right: 40px;
 }
 
 .register{
-    padding-right: 40px; /* Zwiększ margines po prawej stronie */
+    padding-right: 40px;
 }
 
 
@@ -169,17 +169,17 @@ form button:hover {
 .btn-clear {
     display: inline-block;
     padding: 5px 10px;
-    background-color: #D9D9D9; /* Kolor tła */
-    color: #333;               /* Kolor tekstu */
-    border: 1px solid #ccc;    /* Obramowanie */
-    text-decoration: none;      /* Usuwamy podkreślenie linku */
-    border-radius: 4px;         /* Zaokrąglenie krawędzi */
+    background-color: #D9D9D9;
+    color: #333;
+    border: 1px solid #ccc;
+    text-decoration: none;
+    border-radius: 4px;
     font-size: 0.8rem;
     margin-top: 10px;
 }
 
 .btn-clear:hover {
-    background-color: #bbb;    /* Zmiana koloru tła po najechaniu */
+    background-color: #bbb;
 }
 
 a {
@@ -206,7 +206,6 @@ ul {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Stylizacja tabeli */
 table {
     max-width: 1400px;
     max-height: 600px;
@@ -217,19 +216,17 @@ table {
     overflow: hidden;
 }
 
-/* Stylizacja komórek */
 table, th, td {
     border: 1px solid #ccc;
 }
 
 th, td {
     padding: 12px;
-    text-align: center; /* Wycentrowanie */
-    vertical-align: middle; /* Centrowanie w pionie */
+    text-align: center;
+    vertical-align: middle;
     border: 1px solid #ccc;
 }
 
-/* Nagłówki tabeli */
 th {
     background-color: #646464;
     color: white;
@@ -241,15 +238,14 @@ th {
 
 
 th a {
-    color: white !important; /* Upewnia się, że linki w nagłówkach są białe */
+    color: white !important;
     text-decoration: none;
 }
 
 th a:hover {
-    text-decoration: underline; /* Opcjonalnie, by było widać, że to link */
+    text-decoration: underline;
 }
 
-/* Kolumna akcji */
 td.actions {
     text-align: center;
     white-space: nowrap;
@@ -351,18 +347,18 @@ td.actions {
 }
 
 .small-input {
-    width: 60px;   /* Szerokość */
-    height: 25px;  /* Mniejsza wysokość */
-    padding: 2px;  /* Mniejszy padding */
-    font-size: 14px; /* Mniejsza czcionka */
-    text-align: center; /* Środek */
+    width: 60px;
+    height: 25px;
+    padding: 2px;
+    font-size: 14px;
+    text-align: center;
 }
 
 .filter-row {
     display: flex;
     justify-content: center;
     gap: 15px;
-    flex-wrap: wrap; /* Żeby na mniejszych ekranach nie było rozwalone */
+    flex-wrap: wrap;
 }
 
 .filter-group {
@@ -383,22 +379,22 @@ td.actions {
     justify-content: center;
     align-items: center;
     text-align: center;
-    height: 100vh; /* Wysokość na całą stronę */
+    height: 100vh;
 }
 
 .input-group {
     display: flex;
     flex-direction: row;
-    justify-content: center; /* Wyśrodkowanie w poziomie */
-    gap: 15px; /* Odstęp między polami */
-    margin-bottom: 10px; /* Doda odstęp między polami */
-    align-items: center; /* Wyśrodkowanie etykiety i inputa */
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+    align-items: center;
 }
 
 .input-item {
     display: flex;
-    flex-direction: column; /* Układ pionowy (etykieta nad inputem) */
-    align-items: center; /* Wyśrodkowanie */
+    flex-direction: column;
+    align-items: center;
 }
 
 .profile-img {

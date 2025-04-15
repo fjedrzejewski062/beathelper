@@ -14,7 +14,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,12 +35,6 @@ public class AdminController {
         this.bpmService = bpmService;
         this.keyService = keyService;
     }
-
-    @GetMapping("/login")
-    public String adminLogin(){
-        return "admin/login";
-    }
-
     @GetMapping("/dashboard")
     public String adminDashboard(Model model,
                                  RedirectAttributes redirectAttributes,
@@ -58,9 +51,6 @@ public class AdminController {
                                  @RequestParam(defaultValue = "0") int page,
                                  @RequestParam(defaultValue = "id") String sortField,
                                  @RequestParam(defaultValue = "asc") String sortDirection) {
-
-        // Sprawdzanie poprawności dat
-        // Sprawdzanie poprawności zakresów dat rejestracji
         if (startDateRegistration != null && endDateRegistration != null &&
                 !startDateRegistration.isEmpty() && !endDateRegistration.isEmpty()) {
             LocalDateTime start = LocalDateTime.parse(startDateRegistration + "T00:00:00");
@@ -71,7 +61,6 @@ public class AdminController {
             }
         }
 
-        // Sprawdzanie poprawności zakresów dat ostatniego logowania
         if (startDateLastLogin != null && endDateLastLogin != null &&
                 !startDateLastLogin.isEmpty() && !endDateLastLogin.isEmpty()) {
             LocalDateTime start = LocalDateTime.parse(startDateLastLogin + "T00:00:00");
@@ -86,10 +75,8 @@ public class AdminController {
         Sort sort = sortDirection.equalsIgnoreCase("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
         Pageable pageable = PageRequest.of(page, 10, sort);
 
-        // Pobieranie użytkowników z uwzględnieniem filtrów
         Page<User> userPage = userService.findFilteredUsers(name, email, userType, role, banned, deleted, startDateRegistration, endDateRegistration, startDateLastLogin, endDateLastLogin, pageable);
 
-        // Dodawanie danych do modelu
         model.addAttribute("users", userPage.getContent());
         model.addAttribute("totalPages", userPage.getTotalPages());
         model.addAttribute("currentPage", page);
@@ -117,7 +104,6 @@ public class AdminController {
             return "redirect:/admin/dashboard";
         }
 
-        // Walidacja BPM
         if (min != null && (min < 1 || min > 250)) {
             redirectAttributes.addFlashAttribute("error", "Min BPM must be between 1 and 250.");
             return "redirect:/admin/users/viewbpms/" + id;
@@ -147,11 +133,6 @@ public class AdminController {
         Pageable pageable = PageRequest.of(page, 10, sort);
 
         Page<BPM> bpmPage = bpmService.findFilteredBPMs(user, min, max, bpmValue, startDate, endDate, pageable);
-
-        // Jeśli brak wyników, dodaj komunikat do modelu
-//        if (bpmPage.getTotalElements() == 0) {
-//            model.addAttribute("error", "No BPMs found matching the given criteria.");
-//        }
 
         model.addAttribute("user", user);
         model.addAttribute("bpms", bpmPage.getContent());
@@ -196,13 +177,12 @@ public class AdminController {
         KeyType keyType = null;
         if (keyName != null && !keyName.isEmpty()) {
             try {
-                keyType = KeyType.valueOf(keyName); // Konwertowanie stringa na enum
+                keyType = KeyType.valueOf(keyName);
             } catch (IllegalArgumentException e) {
-                System.out.println("Niepoprawny typ klucza: " + keyName);
+                System.out.println("Invalid key type: " + keyName);
             }
         }
 
-        // Przekazujemy keyType do metody findFilteredKeys
         Page<Key> keyPage = keyService.findFilteredKeys(user, keyType, startDate, endDate, pageable);
 
         List<Key> keys = keyService.findKeysByUser(user);
@@ -356,10 +336,6 @@ public class AdminController {
 
         KeyType newKeyType = keyService.getRandomKeyType(type);
         List<KeyType> newRelatedKeys = keyService.findRelatedKeys(newKeyType);
-
-//        if(result.hasErrors()){
-//            return "admin/adminKeyEdit";
-//        }
 
         existingKey.setName(newKeyType);
         existingKey.getRelatedKeys().clear();

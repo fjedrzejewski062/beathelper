@@ -4,6 +4,7 @@ import com.example.beathelper.enums.UserType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
@@ -16,20 +17,20 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "Nazwa użytkownika jest wymagana")
-    @Size(min = 3, max = 50, message = "Nazwa musi mieć co najmniej 3 znaki")
+    @NotEmpty(message = "Username is required")
+    @Size(min = 3, max = 50, message = "Username must be at least 3 characters long")
     @Column(unique = true)
+    @Pattern(regexp = "^[a-zA-Z0-9_.-]{3,50}$", message = "Invalid username format")
     private String username;
 
-    @NotEmpty(message = "Email jest wymagany")
-    @Email(message = "Niepoprawny email")
+    @NotEmpty(message = "Email is required")
+    @Email(message = "Invalid email address")
     @Column(unique = true)
     private String email;
 
-    @NotEmpty(message = "Hasło jest wymagane")
+    @NotEmpty(message = "Password is required")
+    @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
-//    @Transient
-//    private String confirmPassword;
 
     @Enumerated(EnumType.STRING)
     private UserType userType;
@@ -156,4 +157,3 @@ public class User {
         this.keys = keys;
     }
 }
-

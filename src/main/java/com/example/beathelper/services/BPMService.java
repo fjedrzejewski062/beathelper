@@ -6,12 +6,10 @@ import com.example.beathelper.repositories.BPMRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -67,19 +65,17 @@ public class BPMService {
 
 
     public Page<BPM> findBPMsByUser(User createdBy, int page) {
-        Pageable pageable = PageRequest.of(page, 10); // 10 rekordów na stronę
+        Pageable pageable = PageRequest.of(page, 10);
         return bpmRepository.findByCreatedBy(createdBy, pageable);
     }
 
     public Page<BPM> findFilteredBPMs(User createdBy, Integer min, Integer max, Integer bpmValue, String startDate, String endDate, Pageable pageable) {
-        // Tworzymy specyfikację
         Specification<BPM> spec = Specification.where(null);
-        // Filtracja po wartości BPM (jeśli podano)
+
         if (bpmValue != null) {
             spec = spec.and((root, query, builder) -> builder.equal(root.get("bpmValue"), bpmValue));
         }
 
-        // Filtracja po zakresie BPM (min i max)
         if (min != null && max != null) {
             spec = spec.and((root, query, builder) -> builder.between(root.get("bpmValue"), min, max));
         } else if (min != null) {
@@ -88,14 +84,12 @@ public class BPMService {
             spec = spec.and((root, query, builder) -> builder.lessThanOrEqualTo(root.get("bpmValue"), max));
         }
 
-        // Filtracja po dacie utworzenia (jeśli podano)
         if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
             LocalDateTime start = LocalDateTime.parse(startDate + "T00:00:00");
             LocalDateTime end = LocalDateTime.parse(endDate + "T23:59:59");
             spec = spec.and((root, query, builder) -> builder.between(root.get("createdAt"), start, end));
         }
 
-        // Wykonanie zapytania z dynamiczną specyfikacją
         return bpmRepository.findAll(spec, pageable);
     }
 }

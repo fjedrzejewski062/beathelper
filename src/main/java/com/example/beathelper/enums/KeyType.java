@@ -32,7 +32,6 @@ public enum KeyType {
 
     private final String name;
 
-    // Konstruktor enum
     KeyType(String name) {
         this.name = name;
     }

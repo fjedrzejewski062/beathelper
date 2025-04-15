@@ -14,20 +14,17 @@
         </div>
         <form method="get" th:action="@{/admin/dashboard}" class="filter-form">
             <div class="filter-row">
-                <!-- Wyszukiwanie po nazwie użytkownika -->
                 <div class="filter-group">
                     <label>Search User:</label>
                     <input type="text" name="name" th:value="${param.name}" class="small-input">
                 </div>
                 <br>
 
-                <!-- Wyszukiwanie po e-mailu -->
                 <div class="filter-group">
                     <label>Search Email:</label>
                     <input type="text" name="email" th:value="${param.email}" class="small-input">
                 </div>
 
-                <!-- Wyszukiwanie po User Type -->
                 <div class="filter-group">
                     <label>Search User Type:</label>
                     <select name="userType" class="small-input">
@@ -40,7 +37,6 @@
                     </select>
                 </div>
 
-                <!-- Wyszukiwanie po roli użytkownika -->
                 <div class="filter-group">
                     <label>Search Role:</label>
                     <select name="role" class="small-input">
@@ -50,7 +46,6 @@
                     </select>
                 </div>
 
-                <!-- Checkbox dla zbanowanych użytkowników -->
                 <div class="filter-group">
                     <label>
                         <input type="checkbox" name="banned" th:checked="${param.banned != null}" value="true">
@@ -58,7 +53,6 @@
                     </label>
                 </div>
 
-                <!-- Checkbox dla usuniętych użytkowników -->
                 <div class="filter-group">
                     <label>
                         <input type="checkbox" name="deleted" th:checked="${param.deleted != null}" value="true">
@@ -66,7 +60,6 @@
                     </label>
                 </div>
 
-                <!-- Wyszukiwanie po dacie rejestracji -->
                 <div class="filter-group">
                     <label>From Registration Date:</label>
                     <input type="date" name="startDateRegistration" th:value="${param.startDateRegistration}" class="small-input">
@@ -77,7 +70,6 @@
                     <input type="date" name="endDateRegistration" th:value="${param.endDateRegistration}" class="small-input">
                 </div>
 
-                <!-- Wyszukiwanie po dacie ostatniego logowania -->
                 <div class="filter-group">
                     <label>Last Login From:</label>
                     <input type="date" name="startDateLastLogin" th:value="${param.startDateLastLogin}" class="small-input">
@@ -89,12 +81,10 @@
                 </div>
             </div>
 
-            <!-- Obsługa błędów -->
             <div class="form-error" th:if="${error}">
                 <p th:text="${error}"></p>
             </div>
 
-            <!-- Przyciski filtracji -->
             <div class="filter-group">
                 <button type="submit" class="btn">Filter</button>
                 <a th:href="@{/admin/dashboard}" class="btn btn-clear spaced-btn">Clear Filters</a>
@@ -140,7 +130,6 @@
         </table>
         </div>
 
-        <!-- Paginacja -->
         <div class="pagination">
             <span th:if="${currentPage > 0}">
                 <a th:href="@{/admin/dashboard(page=${currentPage - 1}, sortField=${sortField}, sortDirection=${sortDirection})}">&laquo; Previous</a>

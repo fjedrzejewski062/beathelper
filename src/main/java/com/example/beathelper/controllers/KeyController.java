@@ -1,12 +1,10 @@
 package com.example.beathelper.controllers;
 
-import com.example.beathelper.entities.BPM;
 import com.example.beathelper.entities.Key;
 import com.example.beathelper.entities.User;
 import com.example.beathelper.enums.KeyType;
 import com.example.beathelper.services.KeyService;
 import com.example.beathelper.services.UserService;
-import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +12,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -50,7 +47,7 @@ public class KeyController {
             LocalDateTime end = LocalDateTime.parse(endDate + "T23:59:59");
             if (end.isBefore(start)) {
                 redirectAttributes.addFlashAttribute("error", "End date cannot be earlier than start date.");
-                return "redirect:/mykeys"; // Używamy addFlashAttribute do przekazania komunikatu
+                return "redirect:/mykeys";
             }
         }
 
@@ -60,19 +57,13 @@ public class KeyController {
         KeyType keyType = null;
         if (keyName != null && !keyName.isEmpty()) {
             try {
-                keyType = KeyType.valueOf(keyName); // Konwertowanie stringa na enum
+                keyType = KeyType.valueOf(keyName);
             } catch (IllegalArgumentException e) {
-                System.out.println("Niepoprawny typ klucza: " + keyName);
+                System.out.println("Invalid key type: " + keyName);
             }
         }
 
-        // Przekazujemy keyType do metody findFilteredKeys
         Page<Key> keyPage = keyService.findFilteredKeys(user, keyType, startDate, endDate, pageable);
-
-        // Jeśli brak wyników, dodaj komunikat do modelu
-//        if (keyPage.getTotalElements() == 0) {
-//            model.addAttribute("error", "No keys found matching the given criteria.");
-//        }
 
         List<Key> keys = keyService.findKeysByUser(user);
 
@@ -99,24 +90,24 @@ public class KeyController {
     @PostMapping("/mykeys/random")
     public String randomKey(@AuthenticationPrincipal org.springframework.security.core.userdetails.User currentUser,
                             Model model,
-                            @RequestParam(value = "type", required = false) String type){
+                            @RequestParam(value = "type", required = false) String type) {
 
-        System.out.println("Wywołano endpoint POST /mykeys/random");
+        System.out.println("POST /mykeys/random endpoint called");
 
         String email = currentUser.getUsername();
-        System.out.println("Aktualny użytkownik: " + email);
+        System.out.println("Current user: " + email);
 
         User user = userService.findByEmail(email).orElse(null);
         if (user == null) {
-            System.out.println("Nie znaleziono użytkownika w bazie!");
+            System.out.println("User not found in the database!");
             return "redirect:/mykeys";
         }
 
         Key generatedKey = keyService.randomKey(user, type);
         if (generatedKey == null) {
-            System.out.println("Błąd: nie wygenerowano klucza!");
+            System.out.println("Error: failed to generate a key!");
         } else {
-            System.out.println("Wygenerowano i zapisano klucz o ID: " + generatedKey.getId());
+            System.out.println("Generated and saved key with ID: " + generatedKey.getId());
         }
 
         return "redirect:/mykeys";

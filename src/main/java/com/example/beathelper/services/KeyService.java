@@ -11,7 +11,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -50,13 +49,11 @@ public class KeyService {
         camelotCircleMap.put(KeyType.A_SHARP_MINOR, "3A");
         camelotCircleMap.put(KeyType.B_MINOR, "10A");
 
-        // Tworzenie mapy odwrotnej
+        // mapa odwrotna
         for (Map.Entry<KeyType, String> entry : camelotCircleMap.entrySet()) {
             reverseCamelotCircleMap.put(entry.getValue(), entry.getKey());
         }
     }
-
-
 
     public KeyService(KeyRepository keyRepository) {
         this.keyRepository = keyRepository;
@@ -67,8 +64,8 @@ public class KeyService {
             type = "both";
         }
 
-        System.out.println("Losujemy klucz dla użytkownika: " + (createdBy != null ? createdBy.getEmail() : "Brak użytkownika"));
-        System.out.println("Typ losowania: " + type);
+        System.out.println("Generating a key for user: " + (createdBy != null ? createdBy.getEmail() : "No user found"));
+        System.out.println("Key generation type: " + type);
 
         List<KeyType> keyTypes;
 
@@ -87,19 +84,19 @@ public class KeyService {
                 keyTypes = Arrays.asList(KeyType.values());
                 break;
             default:
-                throw new IllegalArgumentException("Niepoprawny typ: " + type);
+                throw new IllegalArgumentException("Invalid type: " + type);
         }
 
         if (keyTypes.isEmpty()) {
-            System.out.println("Brak dostępnych kluczy do losowania!");
+            System.out.println("No available keys to randomize!");
             return null;
         }
 
         KeyType randomKey = keyTypes.get(ran.nextInt(keyTypes.size()));
-        System.out.println("Wylosowany klucz: " + randomKey);
+        System.out.println("Randomized key: " + randomKey);
 
         List<KeyType> relatedKeys = findRelatedKeys(randomKey);
-        System.out.println("Powiązane klucze: " + relatedKeys);
+        System.out.println("Related keys: " + relatedKeys);
 
         Key key = new Key();
         key.setName(randomKey);
@@ -108,7 +105,7 @@ public class KeyService {
         key.setCreatedAt(LocalDateTime.now());
 
         Key savedKey = keyRepository.save(key);
-        System.out.println("Zapisano klucz: " + savedKey.getId());
+        System.out.println("Saved key with ID: " + savedKey.getId());
 
         return savedKey;
     }
@@ -192,19 +189,16 @@ public class KeyService {
 
     public Page<Key> findFilteredKeys(User createdBy, KeyType keyName, String startDate, String endDate, Pageable pageable) {
         Specification<Key> spec = Specification.where(null);
-        // Filtracja po nazwie tonu (KeyType)
         if (keyName != null) {
             spec = spec.and((root, query, builder) -> builder.equal(root.get("name"), keyName));
         }
 
-        // Filtracja po dacie utworzenia
         if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
             LocalDateTime start = LocalDateTime.parse(startDate + "T00:00:00");
             LocalDateTime end = LocalDateTime.parse(endDate + "T23:59:59");
             spec = spec.and((root, query, builder) -> builder.between(root.get("createdAt"), start, end));
         }
 
-        // Wykonanie zapytania z dynamiczną specyfikacją
         return keyRepository.findAll(spec, pageable);
     }
 }

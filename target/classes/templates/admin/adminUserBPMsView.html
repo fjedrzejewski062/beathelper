@@ -104,7 +104,6 @@
         <br><br/>
         <a th:href="@{/admin/dashboard}" class="btn">Back to Dashboard</a>
 
-        <!-- PAGINACJA BPM -->
         <div class="pagination">
             <a th:if="${currentPage > 0}"
                th:href="@{/admin/users/viewbpms/{id}(id=${user.id}, page=${currentPage - 1}, sortField=${sortField}, sortDirection=${sortDirection})}"

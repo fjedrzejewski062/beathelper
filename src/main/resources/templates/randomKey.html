@@ -21,11 +21,10 @@
                 </div>
             </div>
 
-                <div class="form-error" th:if="${error}">
-                    <p th:text="${error}"></p>
-                </div>
-
-                <button type="submit" class="btn">Random</button>
+            <div class="form-error" th:if="${error}">
+                <p th:text="${error}"></p>
+            </div>
+            <button type="submit" class="btn">Random</button>
         </form>
         <br/>
         <a th:href="@{/mykeys}" class="btn">Back to my Keys</a>

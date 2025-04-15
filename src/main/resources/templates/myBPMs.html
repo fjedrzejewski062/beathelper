@@ -83,7 +83,6 @@
             </table>
         </div>
 
-        <!-- PAGINACJA -->
         <div class="pagination">
             <a th:if="${currentPage > 0}" th:href="@{/mybpms(page=${currentPage - 1})}" class="btn">Previous</a>
             <span>Page <span th:text="${currentPage + 1}"></span> of <span th:text="${totalPages}"></span></span>
