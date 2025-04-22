@@ -21,7 +21,7 @@ public class BannedUserInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String uri = request.getRequestURI();
 
-        if(uri.startsWith("/admin") || uri.startsWith("banned") ||
+        if(uri.startsWith("/admin") || uri.startsWith("/banned") ||
                 uri.startsWith("/css") || uri.startsWith("/img") || uri.startsWith("/js")){
             return true;
         }

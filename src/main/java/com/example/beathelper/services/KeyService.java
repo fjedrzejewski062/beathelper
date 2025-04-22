@@ -156,7 +156,7 @@ public class KeyService {
                 keyTypes = Arrays.asList(KeyType.values());
                 break;
             default:
-                throw new IllegalArgumentException("Niepoprawny typ: " + type);
+                throw new IllegalArgumentException("Invalid type: " + type);
         }
 
         return keyTypes.get(new Random().nextInt(keyTypes.size()));

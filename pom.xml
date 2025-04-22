@@ -95,6 +95,12 @@
 			<artifactId>spring-boot</artifactId>
 			<version>3.4.3</version>
 		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-inline</artifactId>
+			<version>3.12.4</version> <!-- Upewnij się, że masz odpowiednią wersję -->
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

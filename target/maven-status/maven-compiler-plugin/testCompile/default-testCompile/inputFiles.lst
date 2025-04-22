@@ -1,0 +1,14 @@
+C:\Users\filip\IdeaProjects\beathelper\beathelper\src\test\java\com\example\beathelper\BeathelperApplicationTests.java
+C:\Users\filip\IdeaProjects\beathelper\beathelper\src\test\java\com\example\beathelper\controller\BPMControllerTest.java
+C:\Users\filip\IdeaProjects\beathelper\beathelper\src\test\java\com\example\beathelper\controller\KeyControllerTest.java
+C:\Users\filip\IdeaProjects\beathelper\beathelper\src\test\java\com\example\beathelper\controller\UserControllerTest.java
+C:\Users\filip\IdeaProjects\beathelper\beathelper\src\test\java\com\example\beathelper\repository\BPMRepositoryTest.java
+C:\Users\filip\IdeaProjects\beathelper\beathelper\src\test\java\com\example\beathelper\repository\KeyRepositoryTest.java
+C:\Users\filip\IdeaProjects\beathelper\beathelper\src\test\java\com\example\beathelper\repository\UserRepositoryTest.java
+C:\Users\filip\IdeaProjects\beathelper\beathelper\src\test\java\com\example\beathelper\service\BPMServiceTest.java
+C:\Users\filip\IdeaProjects\beathelper\beathelper\src\test\java\com\example\beathelper\service\CustomUserDetailsServiceTest.java
+C:\Users\filip\IdeaProjects\beathelper\beathelper\src\test\java\com\example\beathelper\service\KeyServiceTest.java
+C:\Users\filip\IdeaProjects\beathelper\beathelper\src\test\java\com\example\beathelper\service\StripeServiceTest.java
+C:\Users\filip\IdeaProjects\beathelper\beathelper\src\test\java\com\example\beathelper\service\UserServiceTest.java
+C:\Users\filip\IdeaProjects\beathelper\beathelper\src\test\java\com\example\beathelper\TestBeathelperApplication.java
+C:\Users\filip\IdeaProjects\beathelper\beathelper\src\test\java\com\example\beathelper\TestcontainersConfiguration.java

@@ -17,11 +17,11 @@ public class StripeService {
                         .setQuantity(1L)
                         .setPriceData(
                                 SessionCreateParams.LineItem.PriceData.builder()
-                                        .setCurrency("pln") // Waluta - PLN
-                                        .setUnitAmount(amount.multiply(BigDecimal.valueOf(100)).longValue()) // w groszach!
+                                        .setCurrency("pln")
+                                        .setUnitAmount(amount.multiply(BigDecimal.valueOf(100)).longValue())
                                         .setProductData(
                                                 SessionCreateParams.LineItem.PriceData.ProductData.builder()
-                                                        .setName("Darowizna") // Nazwa przedmiotu
+                                                        .setName("Donation")
                                                         .build()
                                         )
                                         .build()

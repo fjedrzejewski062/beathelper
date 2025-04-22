@@ -24,7 +24,7 @@ public class StripeController {
         try {
             BigDecimal amount = new BigDecimal(donationRequest.getAmount());
             if (amount.compareTo(BigDecimal.ZERO) <= 0) {
-                return ResponseEntity.badRequest().body("Kwota musi być większa od zera.");
+                return ResponseEntity.badRequest().body("Amount must be greater than zero.");
             }
 
             String checkoutUrl = stripeService.createCheckoutSession(
@@ -34,7 +34,7 @@ public class StripeController {
             );
             return ResponseEntity.ok(checkoutUrl);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Błąd: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: Stripe Error");
         }
     }
 
